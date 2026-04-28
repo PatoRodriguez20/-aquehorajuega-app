@@ -15,7 +15,7 @@ export const racingData = {
     },
     {
       rival: "Huracan",
-      fecha: null,//;"2026-05-03T14:00:00-03:00",
+      fecha: "2026-05-03T16:00:00-03:00",//null,//;"2026-05-03T14:00:00-03:00",
       condicion: "local",
       estadio: "Estadio Presidente Juan Domingo Perón",
       ciudad: "Avellaneda, Provincia de Buenos Aires",
