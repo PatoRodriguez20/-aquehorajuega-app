@@ -1,4 +1,4 @@
-import { racingData } from "@/data/racing";
+import { supabase } from "@/lib/supabase";
 import Header from "@/components/Header";
 import Countdown from "@/components/Countdown";
 import ProximosPartidos from "@/components/ProximosPartidos";
@@ -16,15 +16,21 @@ function formatFechaHero(isoString) {
   return `${fechaHora} hs`;
 }
 
-function getProximoPartido(partidos) {
-  const ahora = new Date();
-  return partidos.find(p => p.fecha && new Date(p.fecha) > ahora) || partidos[0];
-}
+export default async function Home() {
+  const { data: partidos } = await supabase
+    .from("partidos")
+    .select("*")
+    .order("fecha", { ascending: true });
 
-export default function Home() {
-  const { proximosPartidos, ultimosResultados } = racingData;
-  const proximoPartido = getProximoPartido(proximosPartidos);
+  const ahora = new Date();
+  const proximosPartidos = partidos.filter(p => p.fecha && new Date(p.fecha) > ahora);
+  const ultimosResultados = partidos
+    .filter(p => p.fecha && new Date(p.fecha) <= ahora)
+    .reverse();
+
+  const proximoPartido = proximosPartidos[0];
   const esLocal = proximoPartido.condicion === "local";
+
   return (
     <>
       <div style={{
@@ -73,7 +79,6 @@ export default function Home() {
           {[
             { label: "Estadio", val: proximoPartido.estadio },
             { label: "Ciudad", val: proximoPartido.ciudad },
-            //{ label: "Competencia", val: proximoPartido.competencia },
           ].map(({ label, val }) => (
             <div key={label} style={{ background: "#0D1E2F", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "18px 20px" }}>
               <div style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.14em", color: "#6B8BA4", textTransform: "uppercase", marginBottom: 8 }}>
@@ -91,7 +96,7 @@ export default function Home() {
       <UltimosResultados resultados={ultimosResultados} />
 
       <footer style={{ textAlign: "center", padding: "32px", borderTop: "1px solid rgba(255,255,255,0.07)", color: "#6B8BA4", fontSize: "0.75rem", letterSpacing: "0.04em" }}>
-       2026 - PR20
+        2026 - PR20
       </footer>
     </>
   );

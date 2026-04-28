@@ -1,7 +1,22 @@
 function getResultado(golesRacing, golesRival) {
   if (golesRacing > golesRival) return { label: "Victoria", color: "#2ecc71", bg: "rgba(46,204,113,0.12)" };
-  if (golesRacing < golesRival) return { label: "Derrota",  color: "#e74c3c", bg: "rgba(231,76,60,0.12)" };
+  if (golesRacing < golesRival) return { label: "Derrota", color: "#e74c3c", bg: "rgba(231,76,60,0.12)" };
   return { label: "Empate", color: "#f39c12", bg: "rgba(243,156,18,0.12)" };
+}
+
+function formatFecha(isoString) {
+  if (!isoString) return "Por confirmar";
+  const d = new Date(isoString);
+  if (isNaN(d.getTime())) return "Fecha no disponible";
+  const fecha = d.toLocaleDateString("es-AR", {
+    weekday: "short", day: "numeric", month: "short",
+    timeZone: "America/Argentina/Buenos_Aires",
+  });
+  const hora = d.toLocaleTimeString("es-AR", {
+    hour: "2-digit", minute: "2-digit", hour12: false,
+    timeZone: "America/Argentina/Buenos_Aires",
+  });
+  return `${fecha} · ${hora} hs`;
 }
 
 export default function UltimosResultados({ resultados }) {
@@ -17,53 +32,49 @@ export default function UltimosResultados({ resultados }) {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {resultados.map((r, i) => {
-          const res = getResultado(r.golesRacing, r.golesRival);
-          const esLocal = r.condicionRacing === "local";
+          const res = getResultado(r.goles_racing, r.goles_rival); // ← corregido
+          const esLocal = r.condicion === "local"; // ← corregido
           return (
             <div key={i} style={{
               background: "#0D1E2F", border: "1px solid rgba(255,255,255,0.07)",
               borderRadius: 18, padding: "24px 28px",
             }}>
-             <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 16 }}>
-  {/* Equipo local - siempre izquierda */}
-  <div>
-    <div style={{ fontSize: "1.05rem", fontWeight: 600, color: esLocal ? "#23BCDD" : "#fff" }}>
-      {esLocal ? "Racing" : r.rival}
-    </div>
-    <div style={{ fontSize: "0.72rem", color: "#6B8BA4" }}>Local</div>
-  </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 16 }}>
+                <div>
+                  <div style={{ fontSize: "1.05rem", fontWeight: 600, color: esLocal ? "#23BCDD" : "#fff" }}>
+                    {esLocal ? "Racing" : r.rival}
+                  </div>
+                  <div style={{ fontSize: "0.72rem", color: "#6B8BA4" }}>Local</div>
+                </div>
 
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-    <span style={{ fontFamily: "var(--font-bebas)", fontSize: "2.2rem", color: "#fff", lineHeight: 1 }}>
-      {esLocal ? `${r.golesRacing} – ${r.golesRival}` : `${r.golesRival} – ${r.golesRacing}`}
-    </span>
-    <span style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.12em", padding: "2px 10px", borderRadius: 100, color: res.color, background: res.bg }}>
-      {res.label}
-    </span>
-    <span style={{ fontSize: "0.68rem", color: "#6B8BA4" }}>{formatFecha(r.fecha)}</span>
-  </div>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+  <span style={{ fontFamily: "var(--font-bebas)", fontSize: "2.2rem", color: "#fff", lineHeight: 1 }}>
+    {esLocal ? `${r.goles_racing} – ${r.goles_rival}` : `${r.goles_rival} – ${r.goles_racing}`}
+  </span>
+  <span style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.12em", padding: "2px 10px", borderRadius: 100, color: res.color, background: res.bg }}>
+    {res.label}
+  </span>
+  <span style={{ fontSize: "0.68rem", color: "#6B8BA4" }}>{formatFecha(r.fecha)}</span>
+    <span style={{ fontSize: "0.65rem", color: "#4a7a9b", letterSpacing: "0.06em" }}>{r.competencia}</span> {/* ← arriba */}
 
-  {/* Equipo visitante - siempre derecha */}
-  <div style={{ textAlign: "right" }}>
-    <div style={{ fontSize: "1.05rem", fontWeight: 600, color: esLocal ? "#fff" : "#23BCDD" }}>
-      {esLocal ? r.rival : "Racing"}
-    </div>
-    <div style={{ fontSize: "0.72rem", color: "#6B8BA4" }}>Visitante</div>
-  </div>
 </div>
 
-                <div>
-                  <div style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.14em" }}>{r.competencia}</div>
-                  <div style={{ color: "#E8F4F8", fontWeight: 500, marginTop: 2 }}>{r.competencia}</div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: "1.05rem", fontWeight: 600, color: esLocal ? "#fff" : "#23BCDD" }}>
+                    {esLocal ? r.rival : "Racing"}
+                  </div>
+                  <div style={{ fontSize: "0.72rem", color: "#6B8BA4" }}>Visitante</div>
                 </div>
+              </div>
+
               {/* <div style={{ display: "flex", gap: 24, marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.07)", fontSize: "0.75rem", color: "#6B8BA4" }}>
                 <div>
-                  <div style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.14em" }}>Estadio</div>
-                  <div style={{ color: "#E8F4F8", fontWeight: 500, marginTop: 2 }}>{r.estadio}</div>
+                  <div style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.14em" }}>Torneo</div>
+                  <div style={{ color: "#E8F4F8", fontWeight: 500, marginTop: 2 }}>{r.competencia}</div>
                 </div>
                 <div>
                   <div style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.14em" }}>Goleadores</div>
-                  <div style={{ color: "#E8F4F8", fontWeight: 500, marginTop: 2 }}>{r.goleadores}</div>
+                  <div style={{ color: "#E8F4F8", fontWeight: 500, marginTop: 2 }}>{r.goleadores || "—"}</div>
                 </div>
               </div> */}
             </div>
@@ -72,25 +83,4 @@ export default function UltimosResultados({ resultados }) {
       </div>
     </section>
   );
-}
-
-function formatFecha(isoString) {
-  if (!isoString) return "Por confirmar";
-
-  // Normalizar: reemplazar espacio por T si es necesario
-  const normalizado = String(isoString).replace(" ", "T");
-  const d = new Date(normalizado);
-
-  // Guard contra fecha inválida
-  if (isNaN(d.getTime())) return "Fecha no disponible";
-
-  const fecha = d.toLocaleDateString("es-AR", {
-    weekday: "short", day: "numeric", month: "short",
-    timeZone: "America/Argentina/Buenos_Aires",
-  });
-  const hora = d.toLocaleTimeString("es-AR", {
-    hour: "2-digit", minute: "2-digit", hour12: false,
-    timeZone: "America/Argentina/Buenos_Aires",
-  });
-  return `${fecha} · ${hora} hs`;
 }
