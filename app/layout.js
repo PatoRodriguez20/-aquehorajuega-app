@@ -14,7 +14,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata = {
-  title: "¿A qué hora juega Racing? | Próximos partidos y resultados",
+  title: "A que hora juega Racing | Próximos partidos y resultados",
   description: "Consultá el próximo partido de Racing Club: fecha, hora, rival, estadio y contador regresivo.",
   icons: {
     icon: "/escudo.png",
