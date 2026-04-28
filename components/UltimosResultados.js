@@ -32,52 +32,50 @@ export default function UltimosResultados({ resultados }) {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {resultados.map((r, i) => {
-          const res = getResultado(r.goles_racing, r.goles_rival); // ← corregido
-          const esLocal = r.condicion === "local"; // ← corregido
+          const res = getResultado(r.goles_racing, r.goles_rival);
+          const esLocal = r.condicion === "local";
           return (
             <div key={i} style={{
               background: "#0D1E2F", border: "1px solid rgba(255,255,255,0.07)",
               borderRadius: 18, padding: "24px 28px",
             }}>
+              {/* Header competencia */}
+              <div style={{ textAlign: "center", marginBottom: 12 }}>
+                <span style={{ fontSize: "0.65rem", color: "#4a7a9b", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                  {r.competencia}
+                </span>
+              </div>
+
+              {/* Grid equipos + marcador */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 16 }}>
                 <div>
                   <div style={{ fontSize: "1.05rem", fontWeight: 600, color: esLocal ? "#23BCDD" : "#fff" }}>
                     {esLocal ? "Racing" : r.rival}
                   </div>
-                  <div style={{ fontSize: "0.72rem", color: "#6B8BA4" }}>Local</div>
                 </div>
 
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-                      <span style={{ fontSize: "0.65rem", color: "#4a7a9b", letterSpacing: "0.06em", textTransform: "uppercase"}}>{r.competencia}</span> {/* ← arriba */}
-  <span style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.12em", padding: "2px 10px", borderRadius: 100, color: res.color, background: res.bg }}>
-    {res.label}
-  </span>
-  <span style={{ fontFamily: "var(--font-bebas)", fontSize: "2.2rem", color: "#fff", lineHeight: 1 }}>
-    {esLocal ? `${r.goles_racing} – ${r.goles_rival}` : `${r.goles_rival} – ${r.goles_racing}`}
-  </span>
-
-  <span style={{ fontSize: "0.68rem", color: "#6B8BA4" }}>{formatFecha(r.fecha)}</span>
-
-</div>
+                  <span style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.12em", padding: "2px 10px", borderRadius: 100, color: res.color, background: res.bg }}>
+                    {res.label}
+                  </span>
+                  <span style={{ fontFamily: "var(--font-bebas)", fontSize: "2.2rem", color: "#fff", lineHeight: 1 }}>
+                    {esLocal ? `${r.goles_racing} – ${r.goles_rival}` : `${r.goles_rival} – ${r.goles_racing}`}
+                  </span>
+                  <span style={{ fontSize: "0.68rem", color: "#6B8BA4" }}>{formatFecha(r.fecha)}</span>
+                </div>
 
                 <div style={{ textAlign: "right" }}>
                   <div style={{ fontSize: "1.05rem", fontWeight: 600, color: esLocal ? "#fff" : "#23BCDD" }}>
                     {esLocal ? r.rival : "Racing"}
                   </div>
-                  <div style={{ fontSize: "0.72rem", color: "#6B8BA4" }}>Visitante</div>
                 </div>
               </div>
 
-              {/* <div style={{ display: "flex", gap: 24, marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.07)", fontSize: "0.75rem", color: "#6B8BA4" }}>
-                <div>
-                  <div style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.14em" }}>Torneo</div>
-                  <div style={{ color: "#E8F4F8", fontWeight: 500, marginTop: 2 }}>{r.competencia}</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.14em" }}>Goleadores</div>
-                  <div style={{ color: "#E8F4F8", fontWeight: 500, marginTop: 2 }}>{r.goleadores || "—"}</div>
-                </div>
-              </div> */}
+              {/* Footer estadio */}
+              <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.07)", fontSize: "0.75rem", color: "#6B8BA4" }}>
+                <div style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.14em" }}>Estadio</div>
+                <div style={{ color: "#E8F4F8", fontWeight: 500, marginTop: 2 }}>{r.estadio}</div>
+              </div>
             </div>
           );
         })}
