@@ -15,7 +15,7 @@ export const racingData = {
     },
     {
       rival: "Huracan",
-      fecha: "2026-05-03T16:00:00-03:00",//null,//;"2026-05-03T14:00:00-03:00",
+      fecha: "2026-05-03T16:00:00-03:00",
       condicion: "local",
       estadio: "Estadio Presidente Juan Domingo Perón",
       ciudad: "Avellaneda, Provincia de Buenos Aires",
@@ -23,11 +23,11 @@ export const racingData = {
     },
     {
       rival: "Botafogo",
-      fecha: "2026-05-06T21:30:00-03:00",//null, // null = fecha por confirmar
+      fecha: "2026-05-06T21:30:00-03:00",// null = fecha por confirmar
       condicion: "visitante",
       estadio: "Estádio Nilton Santos",
       ciudad: "Rio de Janeiro",
-      competencia: "Liga Sudamericana",
+      competencia: "Copa Sudamericana",
     },
   ],
 
@@ -37,27 +37,32 @@ export const racingData = {
       condicionRacing: "local",
       golesRacing: 1,
       golesRival: 1,
-      fecha: "24 Abril",
+      fecha: "2026-04-24T21:30:00-03:00",
       estadio: "Est. Presidente Perón",
       goleadores: "Zaracho",
+      competencia: "Liga Profesional",
+
     },
     {
       rival: "Aldosivi",
       condicionRacing: "visitante",
       golesRacing: 1,
       golesRival: 1,
-      fecha: "19 Abril",
+      fecha: "2026-04-19T13:30:00-03:00",
       estadio: "Estadio José María Minella",
       goleadores: "Zaracho",
+      competencia: "Liga Profesional",
     },
     {
       rival: "Botafogo",
       condicionRacing: "local",
       golesRacing: 2,
       golesRival: 3,
-      fecha: "15 Abril",
+      fecha: "2026-04-15T19:00:00-03:00",
       estadio: "Estadio Presidente Juan Domingo Perón",
       goleadores: "Sosa, Martinez",
+      competencia: "Copa Sudamericana",
+
     },
   ],
 };

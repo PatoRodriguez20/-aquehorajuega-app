@@ -7,11 +7,13 @@ import ScrollButton from "@/components/ScrollButton";
 
 function formatFechaHero(isoString) {
   const d = new Date(isoString);
-  return d.toLocaleDateString("es-AR", {
+  const fechaHora = d.toLocaleDateString("es-AR", {
     weekday: "long", day: "numeric", month: "long",
     hour: "2-digit", minute: "2-digit",
+    hour12: false,
     timeZone: "America/Argentina/Buenos_Aires",
   });
+  return `${fechaHora} hs`;
 }
 
 function getProximoPartido(partidos) {

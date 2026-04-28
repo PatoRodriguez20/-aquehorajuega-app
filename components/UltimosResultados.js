@@ -40,7 +40,7 @@ export default function UltimosResultados({ resultados }) {
     <span style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.12em", padding: "2px 10px", borderRadius: 100, color: res.color, background: res.bg }}>
       {res.label}
     </span>
-    <span style={{ fontSize: "0.68rem", color: "#6B8BA4" }}>{r.fecha}</span>
+    <span style={{ fontSize: "0.68rem", color: "#6B8BA4" }}>{formatFecha(r.fecha)}</span>
   </div>
 
   {/* Equipo visitante - siempre derecha */}
@@ -51,7 +51,12 @@ export default function UltimosResultados({ resultados }) {
     <div style={{ fontSize: "0.72rem", color: "#6B8BA4" }}>Visitante</div>
   </div>
 </div>
-              <div style={{ display: "flex", gap: 24, marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.07)", fontSize: "0.75rem", color: "#6B8BA4" }}>
+
+                <div>
+                  <div style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.14em" }}>{r.competencia}</div>
+                  <div style={{ color: "#E8F4F8", fontWeight: 500, marginTop: 2 }}>{r.competencia}</div>
+                </div>
+              {/* <div style={{ display: "flex", gap: 24, marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.07)", fontSize: "0.75rem", color: "#6B8BA4" }}>
                 <div>
                   <div style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.14em" }}>Estadio</div>
                   <div style={{ color: "#E8F4F8", fontWeight: 500, marginTop: 2 }}>{r.estadio}</div>
@@ -60,11 +65,32 @@ export default function UltimosResultados({ resultados }) {
                   <div style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.14em" }}>Goleadores</div>
                   <div style={{ color: "#E8F4F8", fontWeight: 500, marginTop: 2 }}>{r.goleadores}</div>
                 </div>
-              </div>
+              </div> */}
             </div>
           );
         })}
       </div>
     </section>
   );
+}
+
+function formatFecha(isoString) {
+  if (!isoString) return "Por confirmar";
+
+  // Normalizar: reemplazar espacio por T si es necesario
+  const normalizado = String(isoString).replace(" ", "T");
+  const d = new Date(normalizado);
+
+  // Guard contra fecha inválida
+  if (isNaN(d.getTime())) return "Fecha no disponible";
+
+  const fecha = d.toLocaleDateString("es-AR", {
+    weekday: "short", day: "numeric", month: "short",
+    timeZone: "America/Argentina/Buenos_Aires",
+  });
+  const hora = d.toLocaleTimeString("es-AR", {
+    hour: "2-digit", minute: "2-digit", hour12: false,
+    timeZone: "America/Argentina/Buenos_Aires",
+  });
+  return `${fecha} · ${hora} hs`;
 }
