@@ -4,6 +4,7 @@ import Countdown from "@/components/Countdown";
 import ProximosPartidos from "@/components/ProximosPartidos";
 import UltimosResultados from "@/components/UltimosResultados";
 import ScrollButton from "@/components/ScrollButton";
+export const revalidate = 0; // ← no cachear, siempre datos frescos
 
 function formatFechaHero(isoString) {
   const d = new Date(isoString);
